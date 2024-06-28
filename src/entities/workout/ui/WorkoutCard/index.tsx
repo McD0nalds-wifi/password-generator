@@ -1,5 +1,5 @@
 import { HeartOutlined } from '@ant-design/icons'
-import { Button, Card, Divider, Image, Space, Tag, TagProps, Typography } from 'antd'
+import { Button, Card, Image, Space, Tag, TagProps, Typography } from 'antd'
 import Link from 'next/link'
 
 const { Title, Text } = Typography
@@ -19,6 +19,14 @@ export const WorkoutCard = ({ href, imageUrl, tags, title }: WorkoutCardProp) =>
                     <div style={{ position: 'relative' }}>
                         <Image alt='example' preview={false} src={imageUrl} />
 
+                        <Space style={{ left: 8, position: 'absolute', top: 8 }} wrap={true}>
+                            {tags.map(({ color, title }, index) => (
+                                <Tag bordered={false} color={color} key={index}>
+                                    {title}
+                                </Tag>
+                            ))}
+                        </Space>
+
                         <Button
                             icon={<HeartOutlined />}
                             shape='circle'
@@ -28,6 +36,7 @@ export const WorkoutCard = ({ href, imageUrl, tags, title }: WorkoutCardProp) =>
                     </div>
                 }
                 hoverable
+                style={{ height: '100%' }}
             >
                 <Title level={5}>{title}</Title>
 
@@ -38,16 +47,6 @@ export const WorkoutCard = ({ href, imageUrl, tags, title }: WorkoutCardProp) =>
                     <li>Собственный вес</li>
                     <li>Канаты</li>
                 </ul>
-
-                <Divider />
-
-                <Space style={{ marginTop: '10px' }} wrap={true}>
-                    {tags.map(({ color, title }, index) => (
-                        <Tag bordered={false} color={color} key={index}>
-                            {title}
-                        </Tag>
-                    ))}
-                </Space>
             </Card>
         </Link>
     )
