@@ -1,7 +1,9 @@
 import { WorkoutCard } from '@/entities/workout'
+import { routes } from '@/shared/lib'
 
 const data = [
     {
+        id: '1',
         imageUrl: 'https://media.musclewiki.com/media/uploads/singledbworkout.jpg',
         tags: [
             { color: 'lime', title: 'Начинающий' },
@@ -10,6 +12,7 @@ const data = [
         title: 'Тренировка с 1 гантелью',
     },
     {
+        id: '2',
         imageUrl: 'https://media.musclewiki.com/media/uploads/adv_kb.jpg',
         tags: [
             { color: 'red', title: 'Продвинутый' },
@@ -22,8 +25,14 @@ const data = [
 export const WorkoutsList = () => {
     return (
         <div style={{ display: 'grid', gap: '16px', gridTemplateColumns: '1fr 1fr 1fr 1fr' }}>
-            {data.map(({ imageUrl, tags, title }, index) => (
-                <WorkoutCard imageUrl={imageUrl} key={index} tags={tags} title={title} />
+            {data.map(({ id, imageUrl, tags, title }, index) => (
+                <WorkoutCard
+                    href={routes.workout.getRoute(id)}
+                    imageUrl={imageUrl}
+                    key={index}
+                    tags={tags}
+                    title={title}
+                />
             ))}
         </div>
     )
