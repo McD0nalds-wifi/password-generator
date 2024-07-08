@@ -1,39 +1,47 @@
-import { WorkoutCard } from '@/entities/workout'
-import { routes } from '@/shared/lib'
+import { Col, Empty, Result, Row } from 'antd'
+import { isEmpty } from 'lodash'
 
-const data = [
-    {
-        id: '1',
-        imageUrl: 'https://media.musclewiki.com/media/uploads/singledbworkout.jpg',
-        tags: [
-            { color: 'lime', title: 'Начинающий' },
-            { color: 'volcano', title: 'Набор массы' },
-        ],
-        title: 'Тренировка с 1 гантелью',
-    },
-    {
-        id: '2',
-        imageUrl: 'https://media.musclewiki.com/media/uploads/adv_kb.jpg',
-        tags: [
-            { color: 'red', title: 'Продвинутый' },
-            { color: 'volcano', title: 'Набор массы' },
-        ],
-        title: 'Продвинутая тренировка с гирями',
-    },
-]
+import { SkeletonWorkoutCard, WorkoutCard } from '@/entities/workout'
+import { routes } from '@/shared/lib'
+import { useWorkoutsQuery } from '@/widgets/workouts-list/api/useWorkoutsQuery'
 
 export const WorkoutsList = () => {
+    const { workouts, isLoading, isError } = useWorkoutsQuery()
+
+    if (isLoading) {
+        return (
+            <Row gutter={[16, 16]}>
+                {Array.from({ length: 8 }).map((_, index) => (
+                    <Col key={index} lg={8} md={12} sm={12} xl={6} xs={24} xxl={6}>
+                        <SkeletonWorkoutCard />
+                    </Col>
+                ))}
+            </Row>
+        )
+    }
+
+    if (isError) {
+        return <Result status='error' subTitle='Пожалуйста, повторите попытку позже.' title='Что-то пошло не так' />
+    }
+
+    if (!isEmpty(workouts)) {
+        return <Empty description='Данные не найдены' />
+    }
+
     return (
-        <div style={{ display: 'grid', gap: '16px', gridTemplateColumns: '1fr 1fr 1fr 1fr' }}>
-            {data.map(({ id, imageUrl, tags, title }, index) => (
-                <WorkoutCard
-                    href={routes.workout.getRoute(id)}
-                    imageUrl={imageUrl}
-                    key={index}
-                    tags={tags}
-                    title={title}
-                />
+        <Row gutter={[16, 16]}>
+            {workouts?.map(({ id, previewImageId, name, goalType, difficulty, equipment }) => (
+                <Col key={id} lg={8} md={12} sm={12} xl={6} xs={24} xxl={6}>
+                    <WorkoutCard
+                        difficulty={difficulty}
+                        equipment={equipment}
+                        goalType={goalType}
+                        href={routes.workout.getRoute(id)}
+                        imageUrl={`https://media.musclewiki.com/media/uploads/${previewImageId}.jpg`}
+                        title={name}
+                    />
+                </Col>
             ))}
-        </div>
+        </Row>
     )
 }
