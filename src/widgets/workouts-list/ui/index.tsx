@@ -3,12 +3,13 @@ import { isEmpty } from 'lodash'
 
 import { SkeletonWorkoutCard, WorkoutCard } from '@/entities/workout'
 import { routes } from '@/shared/lib'
-import { useWorkoutsQuery } from '@/widgets/workouts-list/api/useWorkoutsQuery'
+
+import { useWorkoutsQuery } from '../api/workoutsListApi'
 
 export const WorkoutsList = () => {
-    const { workouts, isLoading, isError } = useWorkoutsQuery()
+    const { data: workouts, isLoading, isError, isUninitialized } = useWorkoutsQuery()
 
-    if (isLoading) {
+    if (isLoading || isUninitialized) {
         return (
             <Row gutter={[16, 16]}>
                 {Array.from({ length: 8 }).map((_, index) => (
@@ -24,13 +25,13 @@ export const WorkoutsList = () => {
         return <Result status='error' subTitle='Пожалуйста, повторите попытку позже.' title='Что-то пошло не так' />
     }
 
-    if (!isEmpty(workouts)) {
+    if (isEmpty(workouts)) {
         return <Empty description='Данные не найдены' />
     }
 
     return (
         <Row gutter={[16, 16]}>
-            {workouts?.map(({ id, previewImageId, name, goalType, difficulty, equipment }) => (
+            {workouts.map(({ id, previewImageId, name, goalType, difficulty, equipment }) => (
                 <Col key={id} lg={8} md={12} sm={12} xl={6} xs={24} xxl={6}>
                     <WorkoutCard
                         difficulty={difficulty}

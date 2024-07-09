@@ -6,6 +6,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
 import { SITE_NAME } from '@/shared/constants/seo'
+import { StoreProvider } from '@/shared/providers'
 import { ContentLayout } from '@/widgets/content-layout'
 import { Footer } from '@/widgets/footer'
 import { Header } from '@/widgets/header'
@@ -32,17 +33,19 @@ export default function RootLayout({
         <html lang='en'>
             <body className={inter.className}>
                 <AntdRegistry>
-                    <Layout style={{ flexDirection: 'row', minHeight: '100vh' }}>
-                        <Sidebar />
+                    <StoreProvider>
+                        <Layout style={{ flexDirection: 'row', minHeight: '100vh' }}>
+                            <Sidebar />
 
-                        <Layout>
-                            <Header />
+                            <Layout>
+                                <Header />
 
-                            <ContentLayout>{children}</ContentLayout>
+                                <ContentLayout>{children}</ContentLayout>
 
-                            <Footer />
+                                <Footer />
+                            </Layout>
                         </Layout>
-                    </Layout>
+                    </StoreProvider>
                 </AntdRegistry>
             </body>
         </html>
