@@ -1,6 +1,7 @@
 import { Button, Select, Space } from 'antd'
 import { collection, getDocs } from 'firebase/firestore'
 
+import { CATEGORY_TITLE_BY_CATEGORY_NAME, Category } from '@/entities/category'
 import { DIFFICULTY_TITLE_BY_DIFFICULTY_NAME, Difficulty } from '@/entities/difficulty'
 import { db } from '@/shared/lib'
 
@@ -17,13 +18,38 @@ const getDifficulties = async () => {
     }, [])
 }
 
+const getCategories = async () => {
+    const ref = collection(db, 'categories')
+    const querySnapshot = await getDocs(ref)
+
+    return querySnapshot.docs.reduce<Category[]>((acc, doc) => {
+        const data = doc.data()
+
+        acc.push({ ...data, id: doc.id } as Category)
+
+        return acc
+    }, [])
+}
+
 export const revalidate = 60
 
 export const WorkoutsFilters = async () => {
     const difficulties = await getDifficulties()
+    const categories = await getCategories()
 
     return (
         <Space size='middle'>
+            <Select
+                allowClear
+                mode='multiple'
+                options={categories?.map(({ name }) => ({
+                    label: CATEGORY_TITLE_BY_CATEGORY_NAME[name],
+                    value: name,
+                }))}
+                placeholder='Категоия'
+                style={{ minWidth: '150px' }}
+            />
+
             <Select
                 allowClear
                 mode='multiple'
@@ -32,7 +58,7 @@ export const WorkoutsFilters = async () => {
                     value: name,
                 }))}
                 placeholder='Сложность'
-                style={{ minWidth: '140px' }}
+                style={{ minWidth: '150px' }}
             />
 
             <Select

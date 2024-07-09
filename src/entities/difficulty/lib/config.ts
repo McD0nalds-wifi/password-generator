@@ -1,4 +1,4 @@
-import { DifficultyName } from '@/entities/difficulty'
+import { DifficultyName } from '../model/types'
 
 export const DIFFICULTY_TITLE_BY_DIFFICULTY_NAME: Record<DifficultyName, string> = {
     advanced: 'Продвинутый',
