@@ -1,7 +1,8 @@
-import { Difficulty, Exercise } from '@/entities/exercises'
+import { DifficultyName } from '@/entities/difficulty'
+import { Exercise } from '@/entities/exercises'
 
 export type Workout = {
-    difficulty: Difficulty
+    difficulty: DifficultyName
     equipment: Equipment[]
     exercises: Exercise[]
     goalType: GoalType

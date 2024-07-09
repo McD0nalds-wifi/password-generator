@@ -1,1 +1,1 @@
-export type { Exercise, Difficulty } from './model/types'
+export type { Exercise } from './model/types'

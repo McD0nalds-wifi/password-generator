@@ -1,3 +1,4 @@
+'use client'
 import { Col, Empty, Result, Row } from 'antd'
 import { isEmpty } from 'lodash'
 

@@ -2,14 +2,14 @@ import { HeartOutlined } from '@ant-design/icons'
 import { Button, Card, Image, Space, Tag, TagProps, Typography } from 'antd'
 import Link from 'next/link'
 
-import { Difficulty } from '@/entities/exercises'
+import { DifficultyName } from '@/entities/difficulty'
 
 import { Equipment, GoalType } from '../../model/types'
 
 const { Title, Text } = Typography
 
 type WorkoutCardProp = {
-    difficulty: Difficulty
+    difficulty: DifficultyName
     equipment: Equipment[]
     goalType: GoalType
     href: string
@@ -17,7 +17,7 @@ type WorkoutCardProp = {
     title: string
 }
 
-const DIFFICULTY_TAG_DATA_BY_DIFFICULTY_NAME: Record<Difficulty, { color: TagProps['color']; title: string }> = {
+const DIFFICULTY_TAG_DATA_BY_DIFFICULTY_NAME: Record<DifficultyName, { color: TagProps['color']; title: string }> = {
     advanced: {
         color: 'error',
         title: 'Опытный',

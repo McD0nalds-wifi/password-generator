@@ -1,3 +1,5 @@
+import { Difficulty } from '@/entities/difficulty'
+
 export type Exercise = {
     count: number
     difficulty: Difficulty
@@ -13,7 +15,5 @@ export type Exercise = {
     steps: string[]
     type: ExerciseType
 }
-
-export type Difficulty = 'beginner' | 'intermediate' | 'advanced' | 'novice'
 
 export type ExerciseType = 'reps' | 'duration'
