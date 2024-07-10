@@ -1,9 +1,9 @@
-export type Muscles = {
+export type Muscle = {
     id: string
-    name: MusclesName
+    name: MuscleName
 }
 
-export type MusclesName =
+export type MuscleName =
     | 'biceps'
     | 'lowerBack'
     | 'abdominals'

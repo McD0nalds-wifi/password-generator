@@ -1,6 +1,6 @@
-import { MusclesName } from '../model/types'
+import { MuscleName } from '../model/types'
 
-export const MUSCLES_TITLE_BY_MUSCLES_NAME: Record<MusclesName, string> = {
+export const MUSCLE_TITLE_BY_MUSCLE_NAME: Record<MuscleName, string> = {
     abdominals: 'Брюшной пресс',
     biceps: 'Бицепсы',
     calves: 'Икры',

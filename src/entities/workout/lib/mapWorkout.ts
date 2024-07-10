@@ -1,8 +1,7 @@
 import { DocumentData, QueryDocumentSnapshot } from '@firebase/firestore'
 import { getDoc } from 'firebase/firestore'
 
-import { Exercise } from '@/entities/exercises'
-
+import { Exercise } from '../../exercise'
 import { Workout } from '../model/types'
 
 export const mapWorkout = async (doc: QueryDocumentSnapshot<DocumentData, DocumentData>) => {
