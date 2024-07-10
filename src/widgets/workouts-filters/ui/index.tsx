@@ -3,6 +3,7 @@ import { collection, getDocs } from 'firebase/firestore'
 
 import { CATEGORY_TITLE_BY_CATEGORY_NAME, Category } from '@/entities/category'
 import { DIFFICULTY_TITLE_BY_DIFFICULTY_NAME, Difficulty } from '@/entities/difficulty'
+import { MUSCLES_TITLE_BY_MUSCLES_NAME, Muscles } from '@/entities/muscles'
 import { db } from '@/shared/lib'
 
 const getDifficulties = async () => {
@@ -31,11 +32,27 @@ const getCategories = async () => {
     }, [])
 }
 
+const getMuscles = async () => {
+    const ref = collection(db, 'muscles')
+    const querySnapshot = await getDocs(ref)
+
+    return querySnapshot.docs.reduce<Muscles[]>((acc, doc) => {
+        const data = doc.data()
+
+        acc.push({ ...data, id: doc.id } as Muscles)
+
+        return acc
+    }, [])
+}
+
 export const revalidate = 60
 
 export const WorkoutsFilters = async () => {
     const difficulties = await getDifficulties()
     const categories = await getCategories()
+    const muscles = await getMuscles()
+
+    console.log(muscles)
 
     return (
         <Space size='middle'>
@@ -64,9 +81,12 @@ export const WorkoutsFilters = async () => {
             <Select
                 allowClear
                 mode='multiple'
-                // options={options}
+                options={muscles?.map(({ name }) => ({
+                    label: MUSCLES_TITLE_BY_MUSCLES_NAME[name],
+                    value: name,
+                }))}
                 placeholder='Мышцы'
-                style={{ minWidth: '120px' }}
+                style={{ minWidth: '150px' }}
             />
 
             <Select
