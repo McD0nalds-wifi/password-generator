@@ -8,7 +8,7 @@ import { Difficulty } from '../model/types'
 
 export const difficultyApi = api.injectEndpoints({
     endpoints: (build) => ({
-        difficulties: build.query<Difficulty[], void>({
+        getDifficulties: build.query<Difficulty[], void>({
             queryFn: async () => {
                 try {
                     const ref = collection(db, 'difficulties')
@@ -34,9 +34,9 @@ export const difficultyApi = api.injectEndpoints({
     }),
 })
 
-const selectDifficultiesState = difficultyApi.endpoints.difficulties.select()
+const selectDifficultiesState = difficultyApi.endpoints.getDifficulties.select()
 const selectDifficulties = createSelector(selectDifficultiesState, (state) => state.data ?? null)
 
-export const { useDifficultiesQuery } = difficultyApi
+export const { useGetDifficultiesQuery } = difficultyApi
 
 export const difficultiesSelectors = { selectDifficulties }

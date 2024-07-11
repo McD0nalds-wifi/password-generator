@@ -8,7 +8,7 @@ import { Equipment } from '../model/types'
 
 export const equipmentApi = api.injectEndpoints({
     endpoints: (build) => ({
-        equipment: build.query<Equipment[], void>({
+        getEquipment: build.query<Equipment[], void>({
             queryFn: async () => {
                 try {
                     const ref = collection(db, 'equipment')
@@ -34,9 +34,9 @@ export const equipmentApi = api.injectEndpoints({
     }),
 })
 
-const selectEquipmentState = equipmentApi.endpoints.equipment.select()
+const selectEquipmentState = equipmentApi.endpoints.getEquipment.select()
 const selectEquipment = createSelector(selectEquipmentState, (state) => state.data ?? null)
 
-export const { useEquipmentQuery } = equipmentApi
+export const { useGetEquipmentQuery } = equipmentApi
 
 export const equipmentSelectors = { selectEquipment }

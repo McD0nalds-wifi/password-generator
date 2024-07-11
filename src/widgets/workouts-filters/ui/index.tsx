@@ -11,20 +11,20 @@ import {
     DIFFICULTY_TITLE_BY_DIFFICULTY_NAME,
     DifficultyName,
     getDifficultiesNamesFromSearchParams,
-    useDifficultiesQuery,
+    useGetDifficultiesQuery,
 } from '@/entities/difficulty'
 import {
     EQUIPMENT_TITLE_BY_EQUIPMENT_NAME,
     EquipmentName,
     getEquipmentNamesFromSearchParams,
-    useEquipmentQuery,
+    useGetEquipmentQuery,
 } from '@/entities/equipment'
-import { GOAL_TITLE_BY_GOAL_NAME, GoalName, getGoalsNamesFromSearchParams, useGoalsQuery } from '@/entities/goal'
+import { GOAL_TITLE_BY_GOAL_NAME, GoalName, getGoalsNamesFromSearchParams, useGetGoalsQuery } from '@/entities/goal'
 import {
     MUSCLE_TITLE_BY_MUSCLE_NAME,
     MuscleName,
     getMusclesNamesFromSearchParams,
-    useMusclesQuery,
+    useGetMusclesQuery,
 } from '@/entities/muscle'
 import { routes } from '@/shared/lib'
 
@@ -49,10 +49,10 @@ export const WorkoutsFilters = () => {
         getGoalsNamesFromSearchParams(searchParams),
     )
 
-    const { data: difficulties, isLoading: isDifficultiesLoading } = useDifficultiesQuery()
-    const { data: equipment, isLoading: isEquipmentLoading } = useEquipmentQuery()
-    const { data: muscles, isLoading: isMusclesLoading } = useMusclesQuery()
-    const { data: goals, isLoading: isGoalsLoading } = useGoalsQuery()
+    const { data: difficulties, isLoading: isDifficultiesLoading } = useGetDifficultiesQuery()
+    const { data: equipment, isLoading: isEquipmentLoading } = useGetEquipmentQuery()
+    const { data: muscles, isLoading: isMusclesLoading } = useGetMusclesQuery()
+    const { data: goals, isLoading: isGoalsLoading } = useGetGoalsQuery()
 
     useEffect(() => {
         push(

@@ -8,7 +8,7 @@ import { Muscle } from '../model/types'
 
 export const muscleApi = api.injectEndpoints({
     endpoints: (build) => ({
-        muscles: build.query<Muscle[], void>({
+        getMuscles: build.query<Muscle[], void>({
             queryFn: async () => {
                 try {
                     const ref = collection(db, 'muscles')
@@ -34,9 +34,9 @@ export const muscleApi = api.injectEndpoints({
     }),
 })
 
-const selectMusclesState = muscleApi.endpoints.muscles.select()
+const selectMusclesState = muscleApi.endpoints.getMuscles.select()
 const selectMuscles = createSelector(selectMusclesState, (state) => state.data ?? null)
 
-export const { useMusclesQuery } = muscleApi
+export const { useGetMusclesQuery } = muscleApi
 
 export const musclesSelectors = { selectMuscles }

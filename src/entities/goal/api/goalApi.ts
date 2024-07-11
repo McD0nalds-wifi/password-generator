@@ -8,7 +8,7 @@ import { Goal } from '../model/types'
 
 export const goalApi = api.injectEndpoints({
     endpoints: (build) => ({
-        goals: build.query<Goal[], void>({
+        getGoals: build.query<Goal[], void>({
             queryFn: async () => {
                 try {
                     const ref = collection(db, 'goals')
@@ -34,9 +34,9 @@ export const goalApi = api.injectEndpoints({
     }),
 })
 
-const selectGoalsState = goalApi.endpoints.goals.select()
+const selectGoalsState = goalApi.endpoints.getGoals.select()
 const selectGoals = createSelector(selectGoalsState, (state) => state.data ?? null)
 
-export const { useGoalsQuery } = goalApi
+export const { useGetGoalsQuery } = goalApi
 
 export const goalsSelectors = { selectGoals }
