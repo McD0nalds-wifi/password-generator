@@ -1,4 +1,5 @@
 import { collection, getDocs } from 'firebase/firestore'
+import { createSelector } from 'reselect'
 
 import { api } from '@/shared/api'
 import { db } from '@/shared/lib'
@@ -33,4 +34,9 @@ export const goalApi = api.injectEndpoints({
     }),
 })
 
+const selectGoalsState = goalApi.endpoints.goals.select()
+const selectGoals = createSelector(selectGoalsState, (state) => state.data ?? null)
+
 export const { useGoalsQuery } = goalApi
+
+export const goalsSelectors = { selectGoals }

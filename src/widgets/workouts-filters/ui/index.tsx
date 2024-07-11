@@ -7,16 +7,26 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { FlattenOptionData } from 'rc-select/lib/interface'
 import { BaseOptionType } from 'rc-select/lib/Select'
 
-import { DIFFICULTY_TITLE_BY_DIFFICULTY_NAME, DifficultyName, useDifficultiesQuery } from '@/entities/difficulty'
-import { EQUIPMENT_TITLE_BY_EQUIPMENT_NAME, EquipmentName, useEquipmentQuery } from '@/entities/equipment'
-import { GOAL_TITLE_BY_GOAL_NAME, GoalName, useGoalsQuery } from '@/entities/goal'
-import { MUSCLE_TITLE_BY_MUSCLE_NAME, MuscleName, useMusclesQuery } from '@/entities/muscle'
+import {
+    DIFFICULTY_TITLE_BY_DIFFICULTY_NAME,
+    DifficultyName,
+    getDifficultiesNamesFromSearchParams,
+    useDifficultiesQuery,
+} from '@/entities/difficulty'
+import {
+    EQUIPMENT_TITLE_BY_EQUIPMENT_NAME,
+    EquipmentName,
+    getEquipmentNamesFromSearchParams,
+    useEquipmentQuery,
+} from '@/entities/equipment'
+import { GOAL_TITLE_BY_GOAL_NAME, GoalName, getGoalsNamesFromSearchParams, useGoalsQuery } from '@/entities/goal'
+import {
+    MUSCLE_TITLE_BY_MUSCLE_NAME,
+    MuscleName,
+    getMusclesNamesFromSearchParams,
+    useMusclesQuery,
+} from '@/entities/muscle'
 import { routes } from '@/shared/lib'
-
-import { getDefaultSelectedDifficulties } from '../lib/getDefaultSelectedDifficulties'
-import { getDefaultSelectedEquipment } from '../lib/getDefaultSelectedEquipment'
-import { getDefaultSelectedGoals } from '../lib/getDefaultSelectedGoals'
-import { getDefaultSelectedMuscles } from '../lib/getDefaultSelectedMuscles'
 
 const renderOptionLabel = ({ label }: FlattenOptionData<BaseOptionType>) => (
     <div style={{ whiteSpace: 'normal' }}>{label}</div>
@@ -26,16 +36,18 @@ export const WorkoutsFilters = () => {
     const { push } = useRouter()
     const searchParams = useSearchParams()
 
-    const [selectedEquipment, setSelectedEquipment] = useState<EquipmentName[] | undefined>(
-        getDefaultSelectedEquipment(searchParams),
+    const [selectedEquipmentNames, setSelectedEquipmentNames] = useState<EquipmentName[] | undefined>(
+        getEquipmentNamesFromSearchParams(searchParams),
     )
-    const [selectedDifficulties, setSelectedDifficulties] = useState<DifficultyName[] | undefined>(
-        getDefaultSelectedDifficulties(searchParams),
+    const [selectedDifficultiesNames, setSelectedDifficultiesNames] = useState<DifficultyName[] | undefined>(
+        getDifficultiesNamesFromSearchParams(searchParams),
     )
-    const [selectedMuscles, setSelectedMuscles] = useState<MuscleName[] | undefined>(
-        getDefaultSelectedMuscles(searchParams),
+    const [selectedMusclesNames, setSelectedMusclesNames] = useState<MuscleName[] | undefined>(
+        getMusclesNamesFromSearchParams(searchParams),
     )
-    const [selectedGoals, setSelectedGoals] = useState<GoalName[] | undefined>(getDefaultSelectedGoals(searchParams))
+    const [selectedGoalsNames, setSelectedGoalsNames] = useState<GoalName[] | undefined>(
+        getGoalsNamesFromSearchParams(searchParams),
+    )
 
     const { data: difficulties, isLoading: isDifficultiesLoading } = useDifficultiesQuery()
     const { data: equipment, isLoading: isEquipmentLoading } = useEquipmentQuery()
@@ -45,13 +57,13 @@ export const WorkoutsFilters = () => {
     useEffect(() => {
         push(
             routes.workouts.getRoute({
-                difficulties: selectedDifficulties,
-                equipment: selectedEquipment,
-                goals: selectedGoals,
-                muscles: selectedMuscles,
+                difficultiesNames: selectedDifficultiesNames,
+                equipmentNames: selectedEquipmentNames,
+                goalsNames: selectedGoalsNames,
+                musclesNames: selectedMusclesNames,
             }),
         )
-    }, [push, selectedEquipment, selectedDifficulties, selectedMuscles, selectedGoals])
+    }, [push, selectedEquipmentNames, selectedDifficultiesNames, selectedMusclesNames, selectedGoalsNames])
 
     return (
         <Flex gap='middle' wrap>
@@ -60,7 +72,7 @@ export const WorkoutsFilters = () => {
                 loading={isEquipmentLoading}
                 maxTagCount={1}
                 mode='multiple'
-                onChange={(value) => setSelectedEquipment(isEmpty(value) ? undefined : value)}
+                onChange={(value) => setSelectedEquipmentNames(isEmpty(value) ? undefined : value)}
                 optionRender={renderOptionLabel}
                 options={equipment?.map(({ name }) => ({
                     label: EQUIPMENT_TITLE_BY_EQUIPMENT_NAME[name],
@@ -68,7 +80,7 @@ export const WorkoutsFilters = () => {
                 }))}
                 placeholder='Оборудование'
                 style={{ minWidth: '150px' }}
-                value={isEquipmentLoading ? undefined : selectedEquipment}
+                value={isEquipmentLoading ? undefined : selectedEquipmentNames}
             />
 
             <Select
@@ -76,7 +88,7 @@ export const WorkoutsFilters = () => {
                 loading={isDifficultiesLoading}
                 maxTagCount={1}
                 mode='multiple'
-                onChange={(value) => setSelectedDifficulties(isEmpty(value) ? undefined : value)}
+                onChange={(value) => setSelectedDifficultiesNames(isEmpty(value) ? undefined : value)}
                 optionRender={renderOptionLabel}
                 options={difficulties?.map(({ name }) => ({
                     label: DIFFICULTY_TITLE_BY_DIFFICULTY_NAME[name],
@@ -84,7 +96,7 @@ export const WorkoutsFilters = () => {
                 }))}
                 placeholder='Сложность'
                 style={{ minWidth: '150px' }}
-                value={isDifficultiesLoading ? undefined : selectedDifficulties}
+                value={isDifficultiesLoading ? undefined : selectedDifficultiesNames}
             />
 
             <Select
@@ -92,7 +104,7 @@ export const WorkoutsFilters = () => {
                 loading={isMusclesLoading}
                 maxTagCount={1}
                 mode='multiple'
-                onChange={(value) => setSelectedMuscles(isEmpty(value) ? undefined : value)}
+                onChange={(value) => setSelectedMusclesNames(isEmpty(value) ? undefined : value)}
                 optionRender={renderOptionLabel}
                 options={muscles?.map(({ name }) => ({
                     label: MUSCLE_TITLE_BY_MUSCLE_NAME[name],
@@ -100,7 +112,7 @@ export const WorkoutsFilters = () => {
                 }))}
                 placeholder='Мышцы'
                 style={{ minWidth: '150px' }}
-                value={isMusclesLoading ? undefined : selectedMuscles}
+                value={isMusclesLoading ? undefined : selectedMusclesNames}
             />
 
             <Select
@@ -108,7 +120,7 @@ export const WorkoutsFilters = () => {
                 loading={isGoalsLoading}
                 maxTagCount={1}
                 mode='multiple'
-                onChange={(value) => setSelectedGoals(isEmpty(value) ? undefined : value)}
+                onChange={(value) => setSelectedGoalsNames(isEmpty(value) ? undefined : value)}
                 optionRender={renderOptionLabel}
                 options={goals?.map(({ name }) => ({
                     label: GOAL_TITLE_BY_GOAL_NAME[name],
@@ -116,7 +128,7 @@ export const WorkoutsFilters = () => {
                 }))}
                 placeholder='Цель'
                 style={{ minWidth: '150px' }}
-                value={isGoalsLoading ? undefined : selectedGoals}
+                value={isGoalsLoading ? undefined : selectedGoalsNames}
             />
 
             <Button>Сбросить фильтры</Button>

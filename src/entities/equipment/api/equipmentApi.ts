@@ -1,4 +1,5 @@
 import { collection, getDocs } from 'firebase/firestore'
+import { createSelector } from 'reselect'
 
 import { api } from '@/shared/api'
 import { db } from '@/shared/lib'
@@ -33,4 +34,9 @@ export const equipmentApi = api.injectEndpoints({
     }),
 })
 
+const selectEquipmentState = equipmentApi.endpoints.equipment.select()
+const selectEquipment = createSelector(selectEquipmentState, (state) => state.data ?? null)
+
 export const { useEquipmentQuery } = equipmentApi
+
+export const equipmentSelectors = { selectEquipment }

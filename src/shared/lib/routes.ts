@@ -14,17 +14,17 @@ export const routes = {
     },
     workouts: {
         getRoute: (params?: {
-            difficulties?: DifficultyName[]
-            equipment?: EquipmentName[]
-            goals?: GoalName[]
-            muscles?: MuscleName[]
+            difficultiesNames?: DifficultyName[]
+            equipmentNames?: EquipmentName[]
+            goalsNames?: GoalName[]
+            musclesNames?: MuscleName[]
         }) => {
             const nonemptyFilters = omitBy(
                 {
-                    difficulties: params?.difficulties ? JSON.stringify(params.difficulties) : undefined,
-                    equipment: params?.equipment ? JSON.stringify(params.equipment) : undefined,
-                    goals: params?.goals ? JSON.stringify(params.goals) : undefined,
-                    muscles: params?.muscles ? JSON.stringify(params.muscles) : undefined,
+                    difficultiesNames: params?.difficultiesNames ? JSON.stringify(params.difficultiesNames) : undefined,
+                    equipmentNames: params?.equipmentNames ? JSON.stringify(params.equipmentNames) : undefined,
+                    goalsNames: params?.goalsNames ? JSON.stringify(params.goalsNames) : undefined,
+                    musclesNames: params?.musclesNames ? JSON.stringify(params.musclesNames) : undefined,
                 },
                 isEmpty,
             ) as Record<string, string>

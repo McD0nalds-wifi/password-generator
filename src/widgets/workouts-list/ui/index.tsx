@@ -1,4 +1,5 @@
 'use client'
+
 import { Col, Empty, Result, Row } from 'antd'
 import { isEmpty } from 'lodash'
 
@@ -6,11 +7,25 @@ import { SkeletonWorkoutCard, WorkoutCard } from '@/entities/workout'
 import { routes } from '@/shared/lib'
 
 import { useWorkoutsQuery } from '../api/workoutsListApi'
+import { useGetWorkoutsArgs } from '../lib/useGetWorkoutsArgs'
 
 export const WorkoutsList = () => {
-    const { data: workouts, isLoading, isError, isUninitialized } = useWorkoutsQuery()
+    const { difficulties, muscles, equipment, goals } = useGetWorkoutsArgs()
 
-    if (isLoading || isUninitialized) {
+    const {
+        data: workouts,
+        isLoading,
+        isFetching,
+        isError,
+        isUninitialized,
+    } = useWorkoutsQuery({
+        difficulties,
+        equipment,
+        goals,
+        muscles,
+    })
+
+    if (isLoading || isFetching || isUninitialized) {
         return (
             <Row gutter={[16, 16]}>
                 {Array.from({ length: 8 }).map((_, index) => (

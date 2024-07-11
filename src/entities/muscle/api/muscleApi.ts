@@ -1,4 +1,5 @@
 import { collection, getDocs } from 'firebase/firestore'
+import { createSelector } from 'reselect'
 
 import { api } from '@/shared/api'
 import { db } from '@/shared/lib'
@@ -33,4 +34,9 @@ export const muscleApi = api.injectEndpoints({
     }),
 })
 
+const selectMusclesState = muscleApi.endpoints.muscles.select()
+const selectMuscles = createSelector(selectMusclesState, (state) => state.data ?? null)
+
 export const { useMusclesQuery } = muscleApi
+
+export const musclesSelectors = { selectMuscles }
