@@ -1,9 +1,9 @@
-export type Category = {
+export type Equipment = {
     id: string
-    name: CategoryName
+    name: EquipmentName
 }
 
-export type CategoryName =
+export type EquipmentName =
     | 'barbell'
     | 'dumbbells'
     | 'bodyweight'

@@ -1,7 +1,7 @@
 import { isEmpty, omitBy } from 'lodash'
 
-import { CategoryName } from '@/entities/category'
 import { DifficultyName } from '@/entities/difficulty'
+import { EquipmentName } from '@/entities/equipment'
 import { GoalName } from '@/entities/goal'
 import { MuscleName } from '@/entities/muscle'
 
@@ -14,15 +14,15 @@ export const routes = {
     },
     workouts: {
         getRoute: (params?: {
-            categories?: CategoryName[]
             difficulties?: DifficultyName[]
+            equipment?: EquipmentName[]
             goals?: GoalName[]
             muscles?: MuscleName[]
         }) => {
             const nonemptyFilters = omitBy(
                 {
-                    categories: params?.categories ? JSON.stringify(params.categories) : undefined,
                     difficulties: params?.difficulties ? JSON.stringify(params.difficulties) : undefined,
+                    equipment: params?.equipment ? JSON.stringify(params.equipment) : undefined,
                     goals: params?.goals ? JSON.stringify(params.goals) : undefined,
                     muscles: params?.muscles ? JSON.stringify(params.muscles) : undefined,
                 },

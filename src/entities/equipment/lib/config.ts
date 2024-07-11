@@ -1,6 +1,6 @@
-import { CategoryName } from '../model/types'
+import { EquipmentName } from '../model/types'
 
-export const CATEGORY_TITLE_BY_CATEGORY_NAME: Record<CategoryName, string> = {
+export const EQUIPMENT_TITLE_BY_EQUIPMENT_NAME: Record<EquipmentName, string> = {
     band: 'Фитнес-резинка',
     barbell: 'Штанга',
     bodyweight: 'Масса тела',

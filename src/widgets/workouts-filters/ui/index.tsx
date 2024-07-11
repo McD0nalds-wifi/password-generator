@@ -7,14 +7,14 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { FlattenOptionData } from 'rc-select/lib/interface'
 import { BaseOptionType } from 'rc-select/lib/Select'
 
-import { CATEGORY_TITLE_BY_CATEGORY_NAME, CategoryName, useCategoriesQuery } from '@/entities/category'
 import { DIFFICULTY_TITLE_BY_DIFFICULTY_NAME, DifficultyName, useDifficultiesQuery } from '@/entities/difficulty'
+import { EQUIPMENT_TITLE_BY_EQUIPMENT_NAME, EquipmentName, useEquipmentQuery } from '@/entities/equipment'
 import { GOAL_TITLE_BY_GOAL_NAME, GoalName, useGoalsQuery } from '@/entities/goal'
 import { MUSCLE_TITLE_BY_MUSCLE_NAME, MuscleName, useMusclesQuery } from '@/entities/muscle'
 import { routes } from '@/shared/lib'
 
-import { getDefaultSelectedCategories } from '../lib/getDefaultSelectedCategories'
 import { getDefaultSelectedDifficulties } from '../lib/getDefaultSelectedDifficulties'
+import { getDefaultSelectedEquipment } from '../lib/getDefaultSelectedEquipment'
 import { getDefaultSelectedGoals } from '../lib/getDefaultSelectedGoals'
 import { getDefaultSelectedMuscles } from '../lib/getDefaultSelectedMuscles'
 
@@ -26,8 +26,8 @@ export const WorkoutsFilters = () => {
     const { push } = useRouter()
     const searchParams = useSearchParams()
 
-    const [selectedCategories, setSelectedCategories] = useState<CategoryName[] | undefined>(
-        getDefaultSelectedCategories(searchParams),
+    const [selectedEquipment, setSelectedEquipment] = useState<EquipmentName[] | undefined>(
+        getDefaultSelectedEquipment(searchParams),
     )
     const [selectedDifficulties, setSelectedDifficulties] = useState<DifficultyName[] | undefined>(
         getDefaultSelectedDifficulties(searchParams),
@@ -38,37 +38,37 @@ export const WorkoutsFilters = () => {
     const [selectedGoals, setSelectedGoals] = useState<GoalName[] | undefined>(getDefaultSelectedGoals(searchParams))
 
     const { data: difficulties, isLoading: isDifficultiesLoading } = useDifficultiesQuery()
-    const { data: categories, isLoading: isCategoriesLoading } = useCategoriesQuery()
+    const { data: equipment, isLoading: isEquipmentLoading } = useEquipmentQuery()
     const { data: muscles, isLoading: isMusclesLoading } = useMusclesQuery()
     const { data: goals, isLoading: isGoalsLoading } = useGoalsQuery()
 
     useEffect(() => {
         push(
             routes.workouts.getRoute({
-                categories: selectedCategories,
                 difficulties: selectedDifficulties,
+                equipment: selectedEquipment,
                 goals: selectedGoals,
                 muscles: selectedMuscles,
             }),
         )
-    }, [push, selectedCategories, selectedDifficulties, selectedMuscles, selectedGoals])
+    }, [push, selectedEquipment, selectedDifficulties, selectedMuscles, selectedGoals])
 
     return (
         <Flex gap='middle' wrap>
             <Select
                 allowClear
-                loading={isCategoriesLoading}
+                loading={isEquipmentLoading}
                 maxTagCount={1}
                 mode='multiple'
-                onChange={(value) => setSelectedCategories(isEmpty(value) ? undefined : value)}
+                onChange={(value) => setSelectedEquipment(isEmpty(value) ? undefined : value)}
                 optionRender={renderOptionLabel}
-                options={categories?.map(({ name }) => ({
-                    label: CATEGORY_TITLE_BY_CATEGORY_NAME[name],
+                options={equipment?.map(({ name }) => ({
+                    label: EQUIPMENT_TITLE_BY_EQUIPMENT_NAME[name],
                     value: name,
                 }))}
-                placeholder='Категоия'
+                placeholder='Оборудование'
                 style={{ minWidth: '150px' }}
-                value={isCategoriesLoading ? undefined : selectedCategories}
+                value={isEquipmentLoading ? undefined : selectedEquipment}
             />
 
             <Select

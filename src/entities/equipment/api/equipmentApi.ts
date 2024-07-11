@@ -3,26 +3,26 @@ import { collection, getDocs } from 'firebase/firestore'
 import { api } from '@/shared/api'
 import { db } from '@/shared/lib'
 
-import { Category } from '../model/types'
+import { Equipment } from '../model/types'
 
-export const categoryApi = api.injectEndpoints({
+export const equipmentApi = api.injectEndpoints({
     endpoints: (build) => ({
-        categories: build.query<Category[], void>({
+        equipment: build.query<Equipment[], void>({
             queryFn: async () => {
                 try {
-                    const ref = collection(db, 'categories')
+                    const ref = collection(db, 'equipment')
 
                     const querySnapshot = await getDocs(ref)
 
-                    const categories = querySnapshot.docs.reduce<Category[]>((acc, doc) => {
+                    const equipment = querySnapshot.docs.reduce<Equipment[]>((acc, doc) => {
                         const data = doc.data()
 
-                        acc.push({ ...data, id: doc.id } as Category)
+                        acc.push({ ...data, id: doc.id } as Equipment)
 
                         return acc
                     }, [])
 
-                    return { data: categories }
+                    return { data: equipment }
                 } catch (e) {
                     console.error(e)
 
@@ -33,4 +33,4 @@ export const categoryApi = api.injectEndpoints({
     }),
 })
 
-export const { useCategoriesQuery } = categoryApi
+export const { useEquipmentQuery } = equipmentApi
