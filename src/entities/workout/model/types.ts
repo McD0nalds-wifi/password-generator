@@ -1,17 +1,14 @@
 import { DifficultyName } from '@/entities/difficulty'
-
-import { Exercise } from '../../exercise'
+import { EquipmentName } from '@/entities/equipment'
+import { Exercise } from '@/entities/exercise'
+import { GoalName } from '@/entities/goal'
 
 export type Workout = {
     difficulty: DifficultyName
-    equipment: Equipment[]
+    equipment: EquipmentName[]
     exercises: Exercise[]
-    goalType: GoalType
+    goalType: GoalName
     id: string
     name: string
     previewImageId: string
 }
-
-export type Equipment = 'dumbbells'
-
-export type GoalType = 'gainMuscle'
