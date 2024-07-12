@@ -2,16 +2,16 @@ import { HeartOutlined } from '@ant-design/icons'
 import { Button, Card, Image, Space, Tag, TagProps, Typography } from 'antd'
 import Link from 'next/link'
 
-import { DifficultyName } from '@/entities/difficulty'
-
-import { Equipment, GoalType } from '../../model/types'
+import { Difficulty, DifficultyName } from '@/entities/difficulty'
+import { Equipment, EquipmentName } from '@/entities/equipment'
+import { Goal, GoalName } from '@/entities/goal'
 
 const { Title, Text } = Typography
 
 type WorkoutCardProp = {
-    difficulty: DifficultyName
+    difficulty: Difficulty
     equipment: Equipment[]
-    goalType: GoalType
+    goal: Goal
     href: string
     imageUrl: string
     title: string
@@ -36,20 +36,22 @@ const DIFFICULTY_TAG_DATA_BY_DIFFICULTY_NAME: Record<DifficultyName, { color: Ta
     },
 }
 
-const GOAL_TYPE_TAG_DATA_BY_GOAL_TYPE_NAME: Record<GoalType, { color: TagProps['color']; title: string }> = {
+// @ts-ignore
+const GOAL_TAG_DATA_BY_GOAL_NAME: Record<GoalName, { color: TagProps['color']; title: string }> = {
     gainMuscle: {
         color: 'success',
         title: 'Набор массы',
     },
 }
 
-const EQUIPMENTS_NAMES: Record<Equipment, string> = {
+// @ts-ignore
+const EQUIPMENTS_NAMES: Record<EquipmentName, string> = {
     dumbbells: 'Гантели',
 }
 
-export const WorkoutCard = ({ difficulty, equipment, goalType, href, imageUrl, title }: WorkoutCardProp) => {
-    const difficultyTagData = DIFFICULTY_TAG_DATA_BY_DIFFICULTY_NAME[difficulty]
-    const goalTypeTagData = GOAL_TYPE_TAG_DATA_BY_GOAL_TYPE_NAME[goalType]
+export const WorkoutCard = ({ difficulty, equipment, goal, href, imageUrl, title }: WorkoutCardProp) => {
+    const difficultyTagData = DIFFICULTY_TAG_DATA_BY_DIFFICULTY_NAME[difficulty.name]
+    const goalTagData = GOAL_TAG_DATA_BY_GOAL_NAME[goal.name]
 
     return (
         <Link href={href}>
@@ -63,8 +65,8 @@ export const WorkoutCard = ({ difficulty, equipment, goalType, href, imageUrl, t
                                 {difficultyTagData.title}
                             </Tag>
 
-                            <Tag bordered={false} color={goalTypeTagData.color}>
-                                {goalTypeTagData.title}
+                            <Tag bordered={false} color={goalTagData.color}>
+                                {goalTagData.title}
                             </Tag>
                         </Space>
 
@@ -84,8 +86,8 @@ export const WorkoutCard = ({ difficulty, equipment, goalType, href, imageUrl, t
                 <Text>Оборудование:</Text>
 
                 <ul style={{ listStylePosition: 'inside' }}>
-                    {equipment.map((item) => (
-                        <li key={item}>{EQUIPMENTS_NAMES[item]}</li>
+                    {equipment.map(({ name, id }) => (
+                        <li key={id}>{EQUIPMENTS_NAMES[name]}</li>
                     ))}
                 </ul>
             </Card>

@@ -47,12 +47,12 @@ export const WorkoutsList = () => {
 
     return (
         <Row gutter={[16, 16]}>
-            {workouts.map(({ id, previewImageId, name, goalType, difficulty, equipment }) => (
+            {workouts.map(({ id, previewImageId, name, goal, difficulty, equipment }) => (
                 <Col key={id} lg={8} md={12} sm={12} xl={6} xs={24} xxl={6}>
                     <WorkoutCard
                         difficulty={difficulty}
                         equipment={equipment}
-                        goalType={goalType}
+                        goal={goal}
                         href={routes.workout.getRoute(id)}
                         imageUrl={`https://media.musclewiki.com/media/uploads/${previewImageId}.jpg`}
                         title={name}

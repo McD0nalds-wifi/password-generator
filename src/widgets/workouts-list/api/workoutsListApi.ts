@@ -48,7 +48,7 @@ export const workoutsListApi = api.injectEndpoints({
                     if (args?.goals) {
                         queryConstraints.push(
                             where(
-                                'goalType',
+                                'goal',
                                 'in',
                                 args.goals.map(({ id }) => doc(db, 'goals', id)),
                             ),
