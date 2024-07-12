@@ -26,8 +26,6 @@ export const mapWorkout = async (doc: QueryDocumentSnapshot<DocumentData, Docume
         exercises.push(exerciseData)
     }
 
-    console.log(exercises, difficulty, goal)
-
     for (const item of data.equipment) {
         const equipmentSnapshot = await getDoc(item)
 
