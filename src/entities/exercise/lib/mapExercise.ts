@@ -1,4 +1,4 @@
-import { DocumentData, QueryDocumentSnapshot } from '@firebase/firestore'
+import { DocumentData, DocumentSnapshot, QueryDocumentSnapshot } from '@firebase/firestore'
 import { getDoc } from 'firebase/firestore'
 
 import { Difficulty } from '@/entities/difficulty'
@@ -9,24 +9,26 @@ import { Mechanic } from '@/entities/mechanics'
 
 import { Exercise } from '../model/types'
 
-export const mapExercise = async (doc: QueryDocumentSnapshot<DocumentData, DocumentData>) => {
+export const mapExercise = async (
+    doc: QueryDocumentSnapshot<DocumentData, DocumentData> | DocumentSnapshot<DocumentData, DocumentData>,
+) => {
     const data = doc.data()
 
     const grips: Grip[] = []
 
-    const difficultySnapshot = await getDoc(data.difficulty)
+    const difficultySnapshot = await getDoc(data?.difficulty)
     const difficulty = { ...(difficultySnapshot.data() as Difficulty), id: difficultySnapshot.id }
 
-    const equipmentSnapshot = await getDoc(data.equipment)
+    const equipmentSnapshot = await getDoc(data?.equipment)
     const equipment = { ...(equipmentSnapshot.data() as Equipment), id: equipmentSnapshot.id }
 
-    const forceSnapshot = await getDoc(data.force)
+    const forceSnapshot = await getDoc(data?.force)
     const force = { ...(forceSnapshot.data() as Force), id: forceSnapshot.id }
 
-    const mechanicSnapshot = await getDoc(data.mechanic)
+    const mechanicSnapshot = await getDoc(data?.mechanic)
     const mechanic = { ...(mechanicSnapshot.data() as Mechanic), id: mechanicSnapshot.id }
 
-    for (const grip of data.grips) {
+    for (const grip of data?.grips) {
         const gripSnapshot = await getDoc(grip)
 
         grips.push({ ...(gripSnapshot.data() as Grip), id: gripSnapshot.id })

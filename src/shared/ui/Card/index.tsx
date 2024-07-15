@@ -21,8 +21,24 @@ export const Card = ({ descriptions, href, imageUrl, tags, title }: CardProps) =
         <Link href={href}>
             <BaseCard
                 cover={
-                    <div style={{ position: 'relative' }}>
-                        <Image alt='Workout preview' preview={false} src={imageUrl} />
+                    <div
+                        style={{
+                            backgroundColor: 'lightgreen',
+                            borderTopLeftRadius: '8px',
+                            borderTopRightRadius: '8px',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            padding: '30px 0px',
+                            position: 'relative',
+                        }}
+                    >
+                        <Image
+                            alt='Workout preview'
+                            height='100px'
+                            preview={false}
+                            src='https://cdn-icons-png.flaticon.com/512/3485/3485579.png'
+                            width='100px'
+                        />
 
                         <Space style={{ left: 8, position: 'absolute', top: 8 }} wrap={true}>
                             {tags.map(({ color, title }, index) => (

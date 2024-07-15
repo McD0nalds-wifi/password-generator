@@ -3,7 +3,8 @@
 import { ManOutlined, WomanOutlined } from '@ant-design/icons'
 import { Space, Switch, Typography } from 'antd'
 
-import { WorkoutContent, WorkoutDescription, WorkoutSteps } from '@/entities/workout'
+import { ExerciseContent, ExerciseDescription } from '@/entities/exercise'
+import { WorkoutSteps } from '@/entities/workout'
 
 const { Text } = Typography
 
@@ -20,7 +21,7 @@ export default function WorkoutPage() {
     return (
         <WorkoutSteps currentStep={1} onStepChange={() => null} steps={steps}>
             <Space align='start' size='middle' style={{ marginTop: 16 }}>
-                <WorkoutContent
+                <ExerciseContent
                     mediaList={[
                         {
                             posterUrl:
@@ -41,19 +42,22 @@ export default function WorkoutPage() {
                     ]}
                 />
 
-                <WorkoutDescription
-                    beforeSlot={
-                        <Space>
-                            <Switch
-                                checkedChildren={<ManOutlined />}
-                                defaultChecked
-                                unCheckedChildren={<WomanOutlined />}
-                            />
-
-                            <Text>Мужчина</Text>
-                        </Space>
-                    }
-                    descriptions={[{ title: 'Сложность', value: 'Средняя' }]}
+                <ExerciseDescription
+                    // beforeSlot={
+                    //     <Space>
+                    //         <Switch
+                    //             checkedChildren={<ManOutlined />}
+                    //             defaultChecked
+                    //             unCheckedChildren={<WomanOutlined />}
+                    //         />
+                    //
+                    //         <Text>Мужчина</Text>
+                    //     </Space>
+                    // }
+                    descriptions={[
+                        { title: 'Сложность', value: 'Средняя' },
+                        { title: 'Усилие', value: '' },
+                    ]}
                 />
             </Space>
         </WorkoutSteps>

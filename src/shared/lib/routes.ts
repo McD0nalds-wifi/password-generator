@@ -7,7 +7,7 @@ import { MuscleName } from '@/entities/muscle'
 
 export const routes = {
     exercise: {
-        getRoute: (id: string) => `/exercise/${id}`,
+        getRoute: (id: string) => `/exercises/${id}`,
     },
     exercises: {
         getRoute: (params?: {
