@@ -8,17 +8,21 @@ export type Exercise = {
     count: number
     difficulty: Difficulty
     equipment: Equipment
-    femalePosterId: string
-    femaleVideoId: string
+    femaleMedia: ExerciseMedia[]
     force: Force
     grips: Grip[]
     id: string
-    malePosterId: string
-    maleVideoId: string
+    maleMedia: ExerciseMedia[]
     mechanic: Mechanic
+    name: string
     sets: number
     steps: string[]
     type: ExerciseType
 }
 
 export type ExerciseType = 'reps' | 'duration'
+
+export type ExerciseMedia = {
+    previewId: string
+    videoId: string
+}

@@ -3,25 +3,25 @@ import { collection, getDocs, query, where } from 'firebase/firestore'
 
 import { Difficulty } from '@/entities/difficulty'
 import { Equipment } from '@/entities/equipment'
+import { Exercise, mapExercise } from '@/entities/exercise'
 import { Goal } from '@/entities/goal'
 import { Muscle } from '@/entities/muscle'
-import { Workout, mapWorkout } from '@/entities/workout'
 import { api } from '@/shared/api'
 import { db } from '@/shared/lib'
 
-type GetWorkoutArgs = {
+type GetExercisesArgs = {
     difficulties?: Difficulty[]
     equipment?: Equipment[]
     goals?: Goal[]
     muscles?: Muscle[]
 }
 
-export const workoutsListApi = api.injectEndpoints({
+export const exercisesListApi = api.injectEndpoints({
     endpoints: (build) => ({
-        getWorkouts: build.query<Workout[], GetWorkoutArgs>({
+        getExercises: build.query<Exercise[], GetExercisesArgs>({
             queryFn: async (args) => {
                 try {
-                    const ref = collection(db, 'workouts')
+                    const ref = collection(db, 'exercises')
 
                     const queryConstraints: QueryFieldFilterConstraint[] = []
 
@@ -68,15 +68,15 @@ export const workoutsListApi = api.injectEndpoints({
 
                     const querySnapshot = await getDocs(query(ref, ...queryConstraints))
 
-                    const workouts: Workout[] = []
+                    const exercises: Exercise[] = []
 
                     for (const doc of querySnapshot.docs) {
-                        const workout = await mapWorkout(doc)
+                        const exercise = await mapExercise(doc)
 
-                        workouts.push(workout)
+                        exercises.push(exercise)
                     }
 
-                    return { data: workouts }
+                    return { data: exercises }
                 } catch (e) {
                     console.error(e)
 
@@ -87,4 +87,4 @@ export const workoutsListApi = api.injectEndpoints({
     }),
 })
 
-export const { useGetWorkoutsQuery } = workoutsListApi
+export const { useGetExercisesQuery } = exercisesListApi

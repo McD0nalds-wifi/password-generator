@@ -17,10 +17,16 @@ export const Sidebar = () => {
     const { value: collapsed, setValue: setCollapsed } = useBoolean(false)
 
     return (
-        <Sider collapsed={collapsed} collapsible onCollapse={setCollapsed}>
-            <div>Logo</div>
+        <Sider
+            collapsed={collapsed}
+            collapsible
+            onCollapse={setCollapsed}
+            style={{ outline: '1px solid rgba(5, 5, 5, 0.06)' }}
+            theme='light'
+        >
+            <div style={{ padding: '8px' }}>Logo</div>
 
-            <Menu defaultSelectedKeys={[pathname]} mode='inline' theme='dark'>
+            <Menu defaultSelectedKeys={[pathname]} mode='inline' style={{ borderInlineEnd: 'none' }} theme='light'>
                 {MENU_ITEMS.map(({ icon, id, label, link }) => (
                     <MenuItem icon={icon} key={id} onClick={() => push(link)}>
                         {label}

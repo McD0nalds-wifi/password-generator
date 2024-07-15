@@ -7,12 +7,11 @@ import { isEmpty } from 'lodash'
 
 import { DIFFICULTY_TAG_COLOR_BY_DIFFICULTY_NAME, DIFFICULTY_TITLE_BY_DIFFICULTY_NAME } from '@/entities/difficulty'
 import { EQUIPMENT_TITLE_BY_EQUIPMENT_NAME } from '@/entities/equipment'
-import { GOAL_TAG_COLOR_BY_GOAL_NAME, GOAL_TITLE_BY_GOAL_NAME } from '@/entities/goal'
 import { routes } from '@/shared/lib'
 import { Card, SkeletonCard } from '@/shared/ui'
 
-import { useGetWorkoutsQuery } from '../api/workoutsListApi'
-import { useGetWorkoutsArgs } from '../lib/useGetWorkoutsArgs'
+import { useGetExercisesQuery } from '../api/exercisesListApi'
+import { useGetExercisesArgs } from '../lib/useGetExercisesArgs'
 
 const Column = ({ children }: { children: ReactNode }) => (
     <Col lg={12} md={12} sm={12} xl={8} xs={24} xxl={6}>
@@ -20,16 +19,16 @@ const Column = ({ children }: { children: ReactNode }) => (
     </Col>
 )
 
-export const WorkoutsList = () => {
-    const { difficulties, muscles, equipment, goals } = useGetWorkoutsArgs()
+export const ExercisesList = () => {
+    const { difficulties, muscles, equipment, goals } = useGetExercisesArgs()
 
     const {
-        data: workouts,
+        data: exercises,
         isLoading,
         isFetching,
         isError,
         isUninitialized,
-    } = useGetWorkoutsQuery({
+    } = useGetExercisesQuery({
         difficulties,
         equipment,
         goals,
@@ -52,29 +51,22 @@ export const WorkoutsList = () => {
         return <Result status='error' subTitle='Пожалуйста, повторите попытку позже.' title='Что-то пошло не так' />
     }
 
-    if (isEmpty(workouts)) {
+    if (isEmpty(exercises)) {
         return <Empty description='Данные не найдены' />
     }
 
     return (
         <Row gutter={[16, 16]}>
-            {workouts.map(({ id, previewImageId, name, goal, difficulty, equipment }) => (
+            {exercises.map(({ difficulty, equipment, id, maleMedia, name }) => (
                 <Column key={id}>
                     <Card
-                        descriptions={equipment.map(({ name }) => ({
-                            icon: '',
-                            title: EQUIPMENT_TITLE_BY_EQUIPMENT_NAME[name],
-                        }))}
-                        href={routes.workout.getRoute(id)}
-                        imageUrl={`https://media.musclewiki.com/media/uploads/${previewImageId}.jpg`}
+                        descriptions={[{ icon: '', title: EQUIPMENT_TITLE_BY_EQUIPMENT_NAME[equipment.name] }]}
+                        href={routes.exercise.getRoute(id)}
+                        imageUrl={`https://media.musclewiki.com/media/uploads/${maleMedia[0].previewId}.jpg`}
                         tags={[
                             {
                                 color: DIFFICULTY_TAG_COLOR_BY_DIFFICULTY_NAME[difficulty.name],
                                 title: DIFFICULTY_TITLE_BY_DIFFICULTY_NAME[difficulty.name],
-                            },
-                            {
-                                color: GOAL_TAG_COLOR_BY_GOAL_NAME[goal.name],
-                                title: GOAL_TITLE_BY_GOAL_NAME[goal.name],
                             },
                         ]}
                         title={name}

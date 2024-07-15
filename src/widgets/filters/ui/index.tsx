@@ -28,11 +28,15 @@ import {
 } from '@/entities/muscle'
 import { routes } from '@/shared/lib'
 
+type FiltersProps = {
+    page: 'exercises' | 'workouts'
+}
+
 const renderOptionLabel = ({ label }: FlattenOptionData<BaseOptionType>) => (
     <div style={{ whiteSpace: 'normal' }}>{label}</div>
 )
 
-export const WorkoutsFilters = () => {
+export const Filters = ({ page }: FiltersProps) => {
     const { push } = useRouter()
     const searchParams = useSearchParams()
 
@@ -56,14 +60,14 @@ export const WorkoutsFilters = () => {
 
     useEffect(() => {
         push(
-            routes.workouts.getRoute({
+            routes[page].getRoute({
                 difficultiesNames: selectedDifficultiesNames,
                 equipmentNames: selectedEquipmentNames,
                 goalsNames: selectedGoalsNames,
                 musclesNames: selectedMusclesNames,
             }),
         )
-    }, [push, selectedEquipmentNames, selectedDifficultiesNames, selectedMusclesNames, selectedGoalsNames])
+    }, [page, push, selectedEquipmentNames, selectedDifficultiesNames, selectedMusclesNames, selectedGoalsNames])
 
     return (
         <Flex gap='middle' wrap>

@@ -6,6 +6,35 @@ import { GoalName } from '@/entities/goal'
 import { MuscleName } from '@/entities/muscle'
 
 export const routes = {
+    exercise: {
+        getRoute: (id: string) => `/exercise/${id}`,
+    },
+    exercises: {
+        getRoute: (params?: {
+            difficultiesNames?: DifficultyName[]
+            equipmentNames?: EquipmentName[]
+            goalsNames?: GoalName[]
+            musclesNames?: MuscleName[]
+        }) => {
+            const nonemptyFilters = omitBy(
+                {
+                    difficultiesNames: params?.difficultiesNames ? JSON.stringify(params.difficultiesNames) : undefined,
+                    equipmentNames: params?.equipmentNames ? JSON.stringify(params.equipmentNames) : undefined,
+                    goalsNames: params?.goalsNames ? JSON.stringify(params.goalsNames) : undefined,
+                    musclesNames: params?.musclesNames ? JSON.stringify(params.musclesNames) : undefined,
+                },
+                isEmpty,
+            ) as Record<string, string>
+
+            const searchParams = new URLSearchParams(nonemptyFilters).toString()
+
+            if (searchParams) {
+                return `/exercises?${searchParams}`
+            }
+
+            return '/exercises'
+        },
+    },
     home: {
         getRoute: () => '/',
     },

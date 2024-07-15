@@ -1,1 +1,0 @@
-export { WorkoutsFilters } from './ui'

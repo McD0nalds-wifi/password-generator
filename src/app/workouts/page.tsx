@@ -1,12 +1,12 @@
 import { Divider } from 'antd'
 
-import { WorkoutsFilters } from '@/widgets/workouts-filters'
+import { Filters } from '@/widgets/filters'
 import { WorkoutsList } from '@/widgets/workouts-list'
 
 export default function Workouts() {
     return (
         <>
-            <WorkoutsFilters />
+            <Filters page='workouts' />
 
             <Divider />
 

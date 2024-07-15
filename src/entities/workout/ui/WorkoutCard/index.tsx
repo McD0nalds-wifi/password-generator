@@ -6,7 +6,9 @@ import { Difficulty, DifficultyName } from '@/entities/difficulty'
 import { Equipment, EquipmentName } from '@/entities/equipment'
 import { Goal, GoalName } from '@/entities/goal'
 
-const { Title, Text } = Typography
+const { Meta } = Card
+
+const { Text } = Typography
 
 type WorkoutCardProp = {
     difficulty: Difficulty
@@ -79,17 +81,23 @@ export const WorkoutCard = ({ difficulty, equipment, goal, href, imageUrl, title
                     </div>
                 }
                 hoverable
-                style={{ height: '100%' }}
             >
-                <Title level={5}>{title}</Title>
+                <Meta style={{ marginBottom: '12px' }} title={title} />
 
-                <Text>Оборудование:</Text>
+                <div style={{ marginBottom: '4px' }}>
+                    <Text>Оборудование:</Text>
+                </div>
 
-                <ul style={{ listStylePosition: 'inside' }}>
+                <Space direction='vertical'>
                     {equipment.map(({ name, id }) => (
-                        <li key={id}>{EQUIPMENTS_NAMES[name]}</li>
+                        <div key={id} style={{ display: 'flex', gap: '8px' }}>
+                            {/* TODO Add icon */}
+                            {/*<MedicineBallIcon />*/}
+
+                            <Text>{EQUIPMENTS_NAMES[name]}</Text>
+                        </div>
                     ))}
-                </ul>
+                </Space>
             </Card>
         </Link>
     )
