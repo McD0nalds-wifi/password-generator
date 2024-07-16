@@ -1,50 +1,37 @@
-'use client'
+import { collection, getDocs, query } from 'firebase/firestore'
 
-import { Space } from 'antd'
+import { WorkoutSteps, getWorkout } from '@/entities/workout'
+import { db } from '@/shared/lib'
 
-import { ExerciseContent, ExerciseDescription } from '@/entities/exercise'
-import { WorkoutSteps } from '@/entities/workout'
+type WorkoutPageProps = {
+    params: {
+        id: string
+    }
+}
 
-const steps = [
-    'Утяжеленная планка для предплечья',
-    'Подтягивание подбородка',
-    'Канатная череподробилка',
-    'Висячие подъемы коленей',
-    'Сгибание молота с гантелями',
-    'Упраженение со штангой',
-]
+export const generateStaticParams = async () => {
+    const ref = collection(db, 'workouts')
 
-export default function WorkoutPage() {
+    const querySnapshot = await getDocs(query(ref))
+
+    return querySnapshot.docs.map((doc) => ({
+        slug: doc.id,
+    }))
+}
+
+export const revalidate = 60
+
+export default async function WorkoutPage({ params: { id } }: WorkoutPageProps) {
+    const { difficulty, equipment, exercises, goal, name, previewImageId } = await getWorkout(id)
+
     return (
-        <WorkoutSteps currentStep={1} onStepChange={() => null} steps={steps}>
-            <Space align='start' size='middle' style={{ marginTop: 16 }}>
-                <ExerciseContent
-                    femaleMedia={[]}
-                    maleMedia={[]}
-                    steps={[
-                        'Встаньте на колени, прижав оба предплечья к земле.',
-                        'Положите утяжелитель на спину (или попросите партнера сделать это за вас).',
-                    ]}
-                />
-
-                <ExerciseDescription
-                    // beforeSlot={
-                    //     <Space>
-                    //         <Switch
-                    //             checkedChildren={<ManOutlined />}
-                    //             defaultChecked
-                    //             unCheckedChildren={<WomanOutlined />}
-                    //         />
-                    //
-                    //         <Text>Мужчина</Text>
-                    //     </Space>
-                    // }
-                    descriptions={[
-                        { title: 'Сложность', value: 'Средняя' },
-                        { title: 'Усилие', value: '' },
-                    ]}
-                />
-            </Space>
-        </WorkoutSteps>
+        <WorkoutSteps
+            difficulty={difficulty}
+            equipment={equipment}
+            exercises={exercises}
+            goal={goal}
+            name={name}
+            previewImageId={previewImageId}
+        />
     )
 }

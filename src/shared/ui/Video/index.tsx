@@ -1,22 +1,34 @@
+import { useRef } from 'react'
+
 import styles from './index.module.css'
 
 type VideoProps = {
-    onClick?: () => void
     poster?: string
     src: string
 }
 
-export const Video = ({ onClick, poster, src }: VideoProps) => {
+export const Video = ({ poster, src }: VideoProps) => {
+    const videoRef = useRef<HTMLVideoElement>(null)
+
+    const handleClick = () => {
+        if (!videoRef.current) {
+            return
+        }
+
+        videoRef.current.requestFullscreen()
+    }
+
     return (
         <video
             autoPlay={true}
-            className={onClick && styles.video}
+            className={styles.video}
             loop
             muted
-            onClick={onClick}
+            onClick={handleClick}
             playsInline
             poster={poster}
             preload='auto'
+            ref={videoRef}
             style={{ borderRadius: '6px', height: 'auto', maxWidth: '100%' }}
         >
             <source src={src} type='video/mp4' />
