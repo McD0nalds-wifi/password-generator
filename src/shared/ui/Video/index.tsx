@@ -1,14 +1,19 @@
+import styles from './index.module.css'
+
 type VideoProps = {
-    poster: string
+    onClick?: () => void
+    poster?: string
     src: string
 }
 
-export const Video = ({ poster, src }: VideoProps) => {
+export const Video = ({ onClick, poster, src }: VideoProps) => {
     return (
         <video
             autoPlay={true}
+            className={onClick && styles.video}
             loop
             muted
+            onClick={onClick}
             playsInline
             poster={poster}
             preload='auto'

@@ -3,7 +3,8 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { GENDER_LOCAL_STORAGE_NAME } from './constants'
 import { Gender } from './types'
 
-const DEFAULT_GENDER = (window.localStorage.getItem(GENDER_LOCAL_STORAGE_NAME) as Gender) || 'male'
+// (window.localStorage.getItem(GENDER_LOCAL_STORAGE_NAME) as Gender) || 'male'
+const DEFAULT_GENDER = 'male'
 
 export const genderSlice = createSlice({
     initialState: DEFAULT_GENDER,

@@ -26,17 +26,11 @@ export const generateStaticParams = async () => {
 export const revalidate = 60
 
 export default async function ExercisePage({ params: { id } }: ExercisePageProps) {
-    const { maleMedia, steps, difficulty, force, grips, mechanic } = await getExercise(id)
+    const { maleMedia, femaleMedia, steps, difficulty, force, grips, mechanic } = await getExercise(id)
 
     return (
         <Space align='start' size='middle'>
-            <ExerciseContent
-                mediaList={maleMedia.map(({ previewId, videoId }) => ({
-                    posterUrl: `https://media.musclewiki.com/media/uploads/${previewId}.jpg`,
-                    videoUrl: `https://media.musclewiki.com/media/uploads/videos/branded/${videoId}.mp4`,
-                }))}
-                steps={steps}
-            />
+            <ExerciseContent femaleMedia={femaleMedia} maleMedia={maleMedia} steps={steps} />
 
             <ExerciseDescription
                 descriptions={[

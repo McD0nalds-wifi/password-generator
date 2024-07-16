@@ -3,14 +3,16 @@ import { CSSProperties } from 'react'
 import { Card, Space } from 'antd'
 import Text from 'antd/lib/typography/Text'
 
-import { Video } from '@/shared/ui'
+import { ExerciseMedia } from '../../model/types'
+import { ExerciseMediaViewer } from '../ExerciseMediaViewer'
 
 type ExerciseContentProps = {
-    mediaList: Array<{ posterUrl: string; videoUrl: string }>
+    femaleMedia: ExerciseMedia[]
+    maleMedia: ExerciseMedia[]
     steps: Array<string>
 }
 
-export const ExerciseContent = ({ mediaList, steps }: ExerciseContentProps) => {
+export const ExerciseContent = ({ femaleMedia, maleMedia, steps }: ExerciseContentProps) => {
     const listNumberStyle: CSSProperties = {
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.06)',
@@ -24,11 +26,7 @@ export const ExerciseContent = ({ mediaList, steps }: ExerciseContentProps) => {
     return (
         <Card>
             <Space direction='vertical' size='middle'>
-                <Space>
-                    {mediaList.map(({ posterUrl, videoUrl }, index) => (
-                        <Video key={index} poster={posterUrl} src={videoUrl} />
-                    ))}
-                </Space>
+                <ExerciseMediaViewer femaleMedia={femaleMedia} maleMedia={maleMedia} />
 
                 <Space direction='vertical'>
                     {steps.map((step, index) => (

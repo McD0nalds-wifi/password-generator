@@ -16,7 +16,7 @@ type CardProps = {
     title: string
 }
 
-export const Card = ({ descriptions, href, imageUrl, tags, title }: CardProps) => {
+export const Card = ({ descriptions, href, tags, title }: CardProps) => {
     return (
         <Link href={href}>
             <BaseCard
